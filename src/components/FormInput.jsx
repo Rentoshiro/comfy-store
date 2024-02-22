@@ -1,4 +1,4 @@
-function FormInput({ label, name, type, defaultValue }) {
+function FormInput({ label, name, type, defaultValue, size }) {
   return (
     <>
       <label className="form-control ">
@@ -9,7 +9,7 @@ function FormInput({ label, name, type, defaultValue }) {
           name={name}
           type={type}
           defaultValue={defaultValue}
-          className="input input-bordered "
+          className={`input input-bordered ${size}`}
         />
       </label>
     </>

@@ -3,7 +3,7 @@ import { formatPrice, customFetch } from "../utils";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-export const generateAmountOptions = (number) => {
+const generateAmountOptions = (number) => {
   return Array.from({ length: number }, (_, index) => {
     const amount = index + 1;
     return (
@@ -33,6 +33,7 @@ function SingleProduct() {
   };
   return (
     <section>
+      {/* breadcrumbs */}
       <div className="text-md breadcrumbs">
         <ul>
           <li>
