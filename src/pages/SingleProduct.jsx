@@ -2,6 +2,8 @@ import { useLoaderData } from "react-router-dom";
 import { formatPrice, customFetch } from "../utils";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { addItem } from "../features/cart/cartSlice";
+import { useDispatch } from "react-redux";
 
 const generateAmountOptions = (number) => {
   return Array.from({ length: number }, (_, index) => {
@@ -31,6 +33,24 @@ function SingleProduct() {
   const handleAmount = (e) => {
     setAmount(parseInt(e.target.value));
   };
+
+  const cartProduct = {
+    cardID: product.id + productColor,
+    productID: product.id,
+    image,
+    title,
+    price,
+    company,
+    productColor,
+    amount,
+  };
+
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(addItem({ product: cartProduct }));
+  };
+
   return (
     <section>
       {/* breadcrumbs */}
@@ -94,7 +114,7 @@ function SingleProduct() {
               value={amount}
               onChange={handleAmount}
             >
-              {generateAmountOptions(15)}
+              {generateAmountOptions(5)}
             </select>
           </div>
           {/* cart button */}
@@ -102,7 +122,7 @@ function SingleProduct() {
             <button
               className="btn btn-secondary btn-md"
               onClick={() => {
-                console.log("added");
+                addToCart();
               }}
             >
               Add to bag

@@ -2,29 +2,17 @@ import { BsCart3, BsMoonFill, BsSunFill } from "react-icons/bs";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import NavLinks from "./NavLinks";
-import { useEffect, useState } from "react";
-
-const themes = {
-  dim: "dim",
-  nord: "nord",
-};
-
-const getThemeFromLocalStorage = () => {
-  return localStorage.getItem("theme") || themes.nord;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../features/user/userSlice";
 
 function Navbar() {
-  const [theme, setTheme] = useState(getThemeFromLocalStorage());
+  const dispatch = useDispatch();
   const handleTheme = () => {
-    const { dim, nord } = themes;
-    const newTheme = theme === nord ? dim : nord;
-    setTheme(newTheme);
+    dispatch(toggleTheme());
   };
 
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  const numItemsInCart = useSelector((state) => state.cartState.numItemsInCart);
+  const theme = useSelector((state) => state.userState.theme);
 
   return (
     <nav className="bg-base-200">
@@ -57,19 +45,20 @@ function Navbar() {
         </div>
         <div className="navbar-end">
           {/* theme setup */}
-          <label className="swap swap-rotate">
-            <input type="checkbox" onChange={handleTheme} />
-            {/* sun icon */}
-            <BsSunFill className="swap-on h-4 w-4" />
-            {/* moon icon */}
-            <BsMoonFill className="swap-off h-4 w-4" />
-          </label>
+
+          <button onClick={handleTheme}>
+            {theme === "nord" ? (
+              <BsMoonFill className="swap-on h-4 w-4" />
+            ) : (
+              <BsSunFill className="swap-off h-4 w-4" />
+            )}
+          </button>
           {/* cart link */}
           <NavLink to="/cart" className="btn btn-ghost btn-circle btn-md ml-4">
             <div className="indicator">
               <BsCart3 className="h-6 w-6" />
               <span className="badge badge-sm badge-primary indicator-item">
-                1
+                {numItemsInCart}
               </span>
             </div>
           </NavLink>
